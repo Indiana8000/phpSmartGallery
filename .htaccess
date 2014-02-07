@@ -1,0 +1,9 @@
+RewriteEngine On
+
+RewriteRule image/(.+)\.png convert\.php?key=$1&t=0
+RewriteRule image/(.+)\.jpg convert\.php?key=$1&t=0
+RewriteRule image/(.+)      convert\.php?key=$1&t=0
+
+RewriteRule thumb/(.+)\.png convert\.php?key=$1&t=1
+RewriteRule thumb/(.+)\.jpg convert\.php?key=$1&t=1
+RewriteRule thumb/(.+)      convert\.php?key=$1&t=1
