@@ -7,14 +7,13 @@ A simple but smart Gallery for your own web page.
 Installation
 ------------
 
-1) Copy all .php files to your Webserver.
+1) Copy all files to your Webserver.
 
-2) Create a data folder outside your Webserver.
+2) Modify the config.php to your needs.
+   I recommend to move the data folder outside your webserver.
 
-2b) If not posible, you can use the .htaccess in the data folder to prefent access to your data folder.
-
-3) Setup the config.php to your needs.
-
+3) Default Login: admin
+   Password: admin
 
 To Do
 -----
