@@ -28,9 +28,7 @@ if($_SESSION['UID'] > 0) {
 					$stmt = $GLOBALS['DB']->prepare("DELETE FROM pictures WHERE uid=:uid AND pid=:pid");
 					$stmt->bindValue(':uid', $_SESSION['UID'], PDO::PARAM_INT);
 					$stmt->bindValue(':pid', $_POST['id'], PDO::PARAM_INT);
-					if($stmt->execute()) {
-						echo 'Picture deleted!';
-					} else {
+					if(!$stmt->execute()) {
 						echo 'Picture deletion failed!';
 					}
 					$stmt = null;
@@ -90,36 +88,28 @@ if($_SESSION['UID'] > 0) {
 		}
 		if(count($_FILES)) echo '</table><br />';
 
+		echo '<table class="tbl_menu" style="margin-left: 1px; margin-bottom: 1px;">';
 		echo '<form enctype="multipart/form-data" method="POST">';
 		echo '<form method="POST">';
 		echo '<input type="hidden" name="MAX_FILE_SIZE" value="104857600" />';
-		echo '<table>';
-		echo '<tr class="tr_header"><th colspan="2">Upload</th></tr>';
-		echo '<tr><td><input type="file" name="img1" /></td><td><input type="submit" name="action" value="Upload" class="in_submit" /></td></tr>';	
-		echo '</table><br />';
+		echo '<tr class="grad_blue"><th colspan="2">Upload</th></tr>';
+		echo '<tr><td><input type="file" name="img1" /></td><td><input type="submit" name="action" value="Upload" class="in_submit grad_gray" /></td></tr>';	
 		echo '</form>';
+		echo '</table>';
 
 		$stmt = $GLOBALS['DB']->prepare("SELECT * FROM pictures WHERE uid=:uid AND gid = 0");
 		$stmt->bindValue(':uid', $_SESSION['UID'], PDO::PARAM_INT);
 		if($stmt->execute()) {
-			echo '<table>';
-			echo '<tr class="tr_header"><th colspan="4">Pictures</th></tr>';
-			echo '<tr>';
-			echo '<th>&nbsp;</th>';
-			echo '<th>ID</th>';
-			echo '<th>Name</th>';
-			echo '<th>Image</th>';
-			echo '</tr>';
 			while($row = $stmt->fetch()) {
-				echo '<tr>';
-				echo '<td><form method="POST"><input type="hidden" name="id" value="'.$row['pid'].'" /><input type="submit" name="action" value="Delete" class="in_submit" /></form></td>';
-				echo '<td align="right">'.$row['pid'].'</td>';
-				echo '<td>'.$row['ptitle'].'</td>';
-				echo '<td><a target="_new" href="image/'.$row['pkey'].'"><img src="thumb/'.$row['pkey'].'" /></a></td>';
-				echo '</tr>';
+				echo '<div>';
+				echo '<table class="tbl_menu">';
+				echo '<tr class="grad_blue"><td>'.$row['ptitle'].'</td></tr>';
+				echo '<tr><td align="center"><a target="_new" href="image/'.$row['pkey'].'"><img src="thumb/'.$row['pkey'].'" /></a></td></tr>';
+				echo '<tr><td align="center"><form method="POST"><input type="hidden" name="id" value="'.$row['pid'].'" /><input type="submit" name="action" value="Delete" class="in_submit grad_gray" /></form></td></tr>';
+				echo '</table>';
+				echo '</div>';
 			}
 			$stmt = null;
-			echo '</table>';
 		}
 		
 		
@@ -147,17 +137,17 @@ if($_SESSION['UID'] > 0) {
 		pageHeader();
 		echo '<table style="height:100%; width:100%;"><tr><td align="center" valign="middle">';
 		echo '<form method="POST">';
-		echo '<table>';
-		echo '<tr class="tr_header"><th colspan="2">Login</th></tr>';
+		echo '<table class="tbl_menu">';
+		echo '<tr class="grad_blue"><th colspan="2">Login</th></tr>';
 		echo '<tr>';
-		echo '<td>Email:</td>';
+		echo '<td>Email/Login:</td>';
 		echo '<td class="td_input"><input type="text" name="email" /></td>';
 		echo '</tr>';
 		echo '<tr>';
 		echo '<td>Password:</td>';
 		echo '<td class="td_input"><input type="password" name="password" /></td>';
 		echo '</tr>';
-		echo '<tr><td>&nbsp;</td><td><input type="submit" name="action" value="Login" class="in_submit" /></td></tr>';
+		echo '<tr><td>&nbsp;</td><td><input type="submit" name="action" value="Login" class="in_submit grad_gray" /></td></tr>';
 
 		if($loginstatus != "") echo '<tr><th colspan="2">'.$loginstatus.'</th></tr>';
 

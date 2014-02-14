@@ -25,24 +25,24 @@ if($_SESSION['UID'] == 1) {
 			pageHeader();
 			pageMenu();
 			echo '<form method="POST">';
-			echo '<table>';
-			echo '<tr class="tr_header"><th colspan="2">New User</th></tr>';
+			echo '<table class="tbl_menu">';
+			echo '<tr class="grad_blue"><th colspan="2">New User</th></tr>';
 			echo '<tr>';
 			echo '<td>Name:</td>';
 			echo '<td class="td_input"><input type="text" name="name" /></td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Email:</td>';
+			echo '<td>Email/Login:</td>';
 			echo '<td class="td_input"><input type="text" name="email" /></td>';
 			echo '</tr>';
 			echo '<tr>';
 			echo '<td>Password:</td>';
 			echo '<td class="td_input"><input type="password" name="password" /></td>';
 			echo '</tr>';
-			echo '<tr><td>&nbsp;</td><td><input type="submit" name="action" value="Add" class="in_submit" /></td></tr>';
+			echo '<tr><td>&nbsp;</td><td><input type="submit" name="action" value="Add" class="in_submit grad_gray" /></td></tr>';
 			echo '</table>';
 			echo '</form>';
-			if($statusmsg != '') echo $statusmsg;
+			if($statusmsg != '') echo '<table class="tbl_menu" style="margin-top: 2px;"><tr class="grad_blue"><td>' . $statusmsg . '</td></tr></table>';
 		}
 	} else if(isset($_POST['action']) && $_POST['action']=="Edit") {
 		$stmt = $GLOBALS['DB']->prepare("SELECT * FROM users WHERE uid=:uid");
@@ -73,34 +73,34 @@ if($_SESSION['UID'] == 1) {
 				$row['name'] = $_POST['name'];
 				$row['email'] = $_POST['email'];
 			} else {
-				$statusmsg = 'Account modigfication failed!';
+				$statusmsg = 'Account modification failed!';
 			}
 			$stmt = null;
 		}
 
 		if($statusmsg != 'OK') {
 			pageHeader();
-			pageMenu('<tr><td><form method="POST"><input type="submit" name="action" value="Add" class="in_submit" /></form></td></tr>');
+			pageMenu();
 
 			echo '<form method="POST">';
-			echo '<table>';
-			echo '<tr class="tr_header"><th colspan="2">Edit User</th></tr>';
+			echo '<table class="tbl_menu">';
+			echo '<tr class="grad_blue"><th colspan="2">Edit User</th></tr>';
 			echo '<tr>';
 			echo '<td>Name:</td>';
-			echo '<td class="td_input"><input type="text" name="name" value="'.$row['name'].'" /></td>';
+			echo '<td><input type="text" name="name" value="'.$row['name'].'" /></td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Email:</td>';
-			echo '<td class="td_input"><input type="text" name="email" value="'.$row['email'].'" /></td>';
+			echo '<td>Email/Login:</td>';
+			echo '<td><input type="text" name="email" value="'.$row['email'].'" /></td>';
 			echo '</tr>';
 			echo '<tr>';
 			echo '<td>Password:</td>';
-			echo '<td class="td_input"><input type="password" name="password" value="" /></td>';
+			echo '<td><input type="password" name="password" value="" /></td>';
 			echo '</tr>';
-			echo '<tr><td>&nbsp;</td><td><input type="hidden" name="id" value="'.$row['uid'].'" /><input type="submit" name="action" value="Edit" class="in_submit" /></td></tr>';
+			echo '<tr><td>&nbsp;</td><td><input type="hidden" name="id" value="'.$row['uid'].'" /><input type="submit" name="action" value="Edit" class="in_submit grad_gray" /></td></tr>';
 			echo '</table>';
 			echo '</form>';
-			if($statusmsg != '') echo $statusmsg;
+			if($statusmsg != '') echo '<table class="tbl_menu" style="margin-top: 2px;"><tr class="grad_blue"><td>' . $statusmsg . '</td></tr></table>';
 		}
 	} else {
 		if(isset($_POST['action']) && $_POST['action']=="Remove") {
@@ -114,27 +114,29 @@ if($_SESSION['UID'] == 1) {
 				}
 				$stmt = null;
 			} else {
-				$statusmsg = 'Admin can not be removed!';
+				$statusmsg = 'User ID 1 can not be removed!';
 			}
 		}
 
 		pageHeader();
-		pageMenu('<tr><td><form method="POST"><input type="submit" name="action" value="Add" class="in_submit" /></form></td></tr>');
+		pageMenu();
 
 		$stmt = $GLOBALS['DB']->prepare("SELECT uid, name, email FROM users");
 		if($stmt->execute()) {
-			echo '<table>';
-			echo '<tr class="tr_header"><th colspan="5">User List</th></tr>';
+			echo '<table class="tbl_menu tbl_space">';
+			echo '<tr class="grad_blue"><th colspan="5">User List</th></tr>';
 			echo '<tr>';
-			echo '<th colspan="2">&nbsp;</th>';
-			echo '<th>ID</th>';
-			echo '<th>Name</th>';
-			echo '<th>Email</th>';
+				echo '<th colspan="2">&nbsp;</th>';
+				echo '<th>ID</th>';
+				echo '<th>Name</th>';
+				echo '<th>Email/Login</th>';
 			echo '</tr>';
+			$color = '';
 			while($row = $stmt->fetch()) {
-				echo '<tr>';
-				echo '<td><form method="POST"><input type="hidden" name="id" value="'.$row['uid'].'" /><input type="submit" name="action" value="Edit" class="in_submit" /></form></td>';
-				echo '<td><form method="POST"><input type="hidden" name="id" value="'.$row['uid'].'" /><input type="submit" name="action" value="Remove" class="in_submit" /></form></td>';
+				if ($color != '#EEEEEE') $color = '#EEEEEE'; else $color = '#FFFFFF';
+				echo '<tr style="background-color:'.$color.';">';
+				echo '<td><form method="POST"><input type="hidden" name="id" value="'.$row['uid'].'" /><input type="submit" name="action" value="Edit" class="in_submit grad_gray" /></form></td>';
+				echo '<td><form method="POST"><input type="hidden" name="id" value="'.$row['uid'].'" /><input type="submit" name="action" value="Remove" class="in_submit grad_gray" /></form></td>';
 				echo '<td align="right">'.$row['uid'].'</td>';
 				echo '<td>'.$row['name'].'</td>';
 				echo '<td>'.$row['email'].'</td>';
@@ -143,7 +145,7 @@ if($_SESSION['UID'] == 1) {
 			$stmt = null;
 			echo '</table>';
 		}
-		if($statusmsg != '') echo $statusmsg;
+		if($statusmsg != '') echo '<table class="tbl_menu" style="margin-top: 2px;"><tr class="grad_blue"><td>' . $statusmsg . '</td></tr></table>';
 	}
 } else {
 	header('Location: .');

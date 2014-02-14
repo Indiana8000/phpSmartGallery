@@ -65,21 +65,20 @@ function pageFooter() {
 }
 
 // Menü
-function pageMenu($extra = "") {
+function pageMenu() {
 	$GLOBALS['CONFIG']['MENU'] = true;
 	// Main Table
 	echo '<table><tr><td valign="top">';
 		// Menü
-		echo '<table>';
-		echo '<tr><td><form method="GET" action="."><input type="submit" name="" value="Home" class="in_submit" /></form></td></tr>';
+		echo '<table class="tbl_menu">';
+		echo '<tr class="grad_blue"><th>Menü</th></tr>';
 		if($_SESSION['UID'] > 0) {
-			echo '<tr><td><form method="POST" action="."><input type="submit" name="action" value="Logout" class="in_submit" /></form></td></tr>';
+			echo '<tr><td><form method="GET"  action="."><input type="submit" name="" value="Pictures" class="in_submit grad_gray" /></form></td></tr>';
+			echo '<tr><td><form method="POST" action="."><input type="submit" name="action" value="Logout" class="in_submit grad_gray" /></form></td></tr>';
 			if($_SESSION['UID']==1) {
-				echo '<tr><td><form method="GET" action="manage.php"><input type="submit" name="" value="Admin" class="in_submit" /></form></td></tr>';
-			}
-			if($extra != "") {
-				echo '<tr><td>&nbsp;</td></tr>';
-				echo $extra;
+				echo '<tr class="grad_blue"><th>Admin</th></tr>';
+				echo '<tr><td><form method="GET"  action="manage.php"><input type="submit" name="" value="List" class="in_submit grad_gray" /></form></td></tr>';
+				echo '<tr><td><form method="POST" action="manage.php"><input type="submit" name="action" value="Add"  class="in_submit grad_gray" /></form></td></tr>';
 			}
 		}
 		echo '</table>';
