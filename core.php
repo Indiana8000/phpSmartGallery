@@ -1,6 +1,4 @@
 <?php
-
-
 // ***
 // CONFIGURATION
 // ***
@@ -19,74 +17,58 @@ require_once('core_db.php');
 
 
 // ***
-// SESSION
+// Helper #1
 // ***
-session_name($GLOBALS['CONFIG']['SESSION_NAME']);
-if(!isset($_REQUEST[$GLOBALS['CONFIG']['SESSION_NAME']])) {
-	session_id(genRandHash());
-	session_start();
-	$_SESSION['UID'] = 0;
-	$_SESSION['NAME'] = 0;
-} else {
-	session_start();
-}
-session_write_close();
 
-// ----- Helper #1 -----
-
-// Header for each page
-function pageHeader() {
-	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");   // Date in the past
-
-	echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
-	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n";
-	echo '<html xmlns="http://www.w3.org/1999/xhtml">' . "\n";
-	echo '<head>' . "\n";
-	echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . "\n";
-	echo '<meta http-equiv="cache-control" content="no-cache, must-revalidate">' . "\n";
-	echo '<meta http-equiv="expires" content="0">' . "\n";
-
-	echo '<link type="text/css" href="style.css" rel="stylesheet" />' . "\n";
-	//echo '<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>' . "\n";
-
-	echo '<title>phpSmartGallery</title>' . "\n";
-	echo '</head>';
-	echo '<body>';
-}
-
-// Cleanup all at the end of each page
-function pageFooter() {
-	if($GLOBALS['CONFIG']['MENU']) {
-		echo '</td></tr></table>';
+function startSession() {
+	session_name($GLOBALS['CONFIG']['SESSION_NAME']);
+	if(!isset($_REQUEST[$GLOBALS['CONFIG']['SESSION_NAME']])) {
+		session_id(genRandHash());
+		session_start();
+		$_SESSION['UID'] = 0;
+		$_SESSION['NAME'] = "Guest";
+	} else {
+		session_start();
 	}
-	$GLOBALS['DB'] = null;
-	echo '</body></html>';
+	session_write_close();
 }
 
-// Menü
-function pageMenu() {
-	$GLOBALS['CONFIG']['MENU'] = true;
-	// Main Table
-	echo '<table><tr><td valign="top">';
-		// Menü
-		echo '<table class="tbl_menu">';
-		echo '<tr class="grad_blue"><th>Menü</th></tr>';
-		if($_SESSION['UID'] > 0) {
-			echo '<tr><td><form method="GET"  action="."><input type="submit" name="" value="Pictures" class="in_submit grad_gray" /></form></td></tr>';
-			echo '<tr><td><form method="POST" action="."><input type="submit" name="action" value="Logout" class="in_submit grad_gray" /></form></td></tr>';
-			if($_SESSION['UID']==1) {
-				echo '<tr class="grad_blue"><th>Admin</th></tr>';
-				echo '<tr><td><form method="GET"  action="manage.php"><input type="submit" name="" value="List" class="in_submit grad_gray" /></form></td></tr>';
-				echo '<tr><td><form method="POST" action="manage.php"><input type="submit" name="action" value="Add"  class="in_submit grad_gray" /></form></td></tr>';
-			}
+function checkLogin($lvl = -1) {
+	startSession();
+	if($lvl == -1) {
+		if(!($_SESSION['UID'] > 0)) {
+			header('Location: login.php');
+			die();
 		}
-		echo '</table>';
-	// Content Table
-	echo '</td><td align="left" valign="top" class="table_frame">';
+	} else {
+		if($_SESSION['UID'] != $lvl) {
+			header('Location: .');
+			die();
+		}
+	}
 }
 
-// ----- Helper #2 -----
+function navBar() {
+	echo '<nav class="navbar navbar-default" role="navigation">';
+	echo '<div class="container-fluid">';
+		echo '<div class="navbar-header hidden-xs"><a class="navbar-brand" href="about.php">phpSmartGallery</a></div>';
+		if($_SESSION['UID']>0) {
+		echo '<ul class="nav navbar-nav">';
+			echo '<li><a href="upload.php">Upload</a></li>';
+			echo '<li><a href="picture.php">Pictures</a></li>';
+			echo '<li><a href="gallery.php">Gallery</a></li>';
+			if($_SESSION['UID']==1) echo '<li class="hidden-xs"><a href="admin.php">Admin</a></li>';
+			echo '<li class="hidden-xs"><a href="logout.php">Logout</a></li>';
+		echo '</ul>';
+		echo '<p class="navbar-text navbar-right hidden-xs">Signed in as <a href="password.php" class="navbar-link"><b>' . $_SESSION['NAME'] . '</b></a></p>';
+		}
+	echo '</div>';
+	echo '</nav>';
+}
+
+// ***
+// Helper #2
+// ***
 
 function genRandHash($salt = "***") {
 	return str_baseconvert(hash($GLOBALS['CONFIG']['HASH'], str_repeat($salt . time() . $_SERVER['REMOTE_ADDR'] . make_seed(), rand(3,8))), 16, 36);

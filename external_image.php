@@ -1,47 +1,47 @@
-<?php
-require_once('core.php');
+<?php require_once('core.php');
 
-if (!isset($_GET['key']))
-{
+if (!isset($_GET['key'])) {
 	header('HTTP/1.1 400 Bad Request');
 	echo 'Error: no image was specified';
 	exit();
 }
 
-$img_file = ''; // Dummy Image
-$stmt = $GLOBALS['DB']->prepare("SELECT * FROM pictures WHERE pkey=:key");
+// Placeholder for unknown Keys
+$img_file = $GLOBALS['CONFIG']['DATAPATH'] . '/placeholder1.jpg';
+
+// Check that image exists in DB
+$stmt = $GLOBALS['DB']->prepare("SELECT uid, pkey FROM pictures WHERE pkey=:key");
 $stmt->bindValue(':key', $_GET['key'], PDO::PARAM_STR);
 if($stmt->execute()) {
-	$row = $stmt->fetch();
-	if($row !== false) {
+	if($row = $stmt->fetch()) {
 		$img_file = $GLOBALS['CONFIG']['DATAPATH'] . "/" . $row['uid'] . "/" . $row['pkey'];
 	}
 }
 $stmt = null;
 $GLOBALS['DB'] = null;
 
+$resized = $img_file . "_thumb";
 
 // Get the size and MIME type of the requested image
 $size	= GetImageSize($img_file);
 $mime	= $size['mime'];
 
 // Make sure that the requested file is actually an image
-if (substr($mime, 0, 6) != 'image/')
-{
+if (substr($mime, 0, 6) != 'image/') {
 	header('HTTP/1.1 400 Bad Request');
-	echo 'Error: requested file is not an accepted type: ';
+	echo 'Error: requested file is not an accepted type';
 	exit();
 }
 
-$width			= $size[0];
-$height			= $size[1];
+$width = $size[0];
+$height = $size[1];
 
 if(isset($_GET['t']) && $_GET['t'] == 1) {
-	$maxWidth		= $GLOBALS['CONFIG']['WIDTH'];
-	$maxHeight		= $GLOBALS['CONFIG']['HEIGHT'];
+	$maxWidth	= $GLOBALS['CONFIG']['WIDTH'];
+	$maxHeight	= $GLOBALS['CONFIG']['HEIGHT'];
 } else {
-	$maxWidth		= 0;
-	$maxHeight		= 0;
+	$maxWidth	= 0;
+	$maxHeight	= 0;
 }
 
 // If we don't have a max width or max height, OR the image is smaller than both
@@ -60,27 +60,6 @@ if ((!$maxWidth && !$maxHeight) || ($maxWidth >= $width && $maxHeight >= $height
 	echo $data;
 	exit();
 }
-
-// Setting up the ratios needed for resizing. We will compare these below to determine how to
-// resize the image (based on height or based on width)
-$xRatio		= $maxWidth / $width;
-$yRatio		= $maxHeight / $height;
-
-if ($xRatio * $height < $maxHeight)
-{ // Resize the image based on width
-	$tnHeight	= ceil($xRatio * $height);
-	$tnWidth	= $maxWidth;
-}
-else // Resize the image based on height
-{
-	$tnWidth	= ceil($yRatio * $width);
- 	$tnHeight	= $maxHeight;
-}
-
-// Determine the quality of the output image
-$quality	= 90;
-
-$resized		= $img_file . "_thumb";
 
 // Check the modified times of the cached file and the original file.
 // If the original file is older than the cached file, then we simply serve up the cached file
@@ -103,6 +82,29 @@ if ( file_exists($resized))
 		exit();
 	}
 }
+
+
+// Setting up the ratios needed for resizing. We will compare these below to determine how to
+// resize the image (based on height or based on width)
+$xRatio		= $maxWidth / $width;
+$yRatio		= $maxHeight / $height;
+
+if ($xRatio * $height < $maxHeight) {
+	// Resize the image based on width
+	$tnHeight	= ceil($xRatio * $height);
+	$tnWidth	= $maxWidth;
+	$tnOffsetX  = 0;
+	$tnOffsetY  = ($maxHeight - $tnHeight) /2;
+} else {
+	// Resize the image based on height
+	$tnWidth	= ceil($yRatio * $width);
+ 	$tnHeight	= $maxHeight;
+	$tnOffsetX  = ($maxWidth - $tnWidth) /2;
+	$tnOffsetY  = 0;
+}
+
+// Determine the quality of the output image
+$quality	= 90;
 
 // We don't want to run out of memory
 ini_set('memory_limit', '100M');
@@ -149,10 +151,9 @@ if (in_array($size['mime'], array('image/gif', 'image/png')))
 }
 
 // Resample the original image into the resized canvas we set up earlier
-ImageCopyResampled($dst, $src, 0, 0, 0, 0, $tnWidth, $tnHeight, $width, $height);
+ImageCopyResampled($dst, $src, $tnOffsetX, $tnOffsetY, 0, 0, $tnWidth, $tnHeight, $width, $height);
 
-if ($doSharpen)
-{
+if($doSharpen) {
 	// Sharpen the image based on two things:
 	//	(1) the difference between the original size and the final size
 	//	(2) the final size
@@ -193,9 +194,8 @@ header('Content-Length: ' . strlen($data));
 echo $data;
 
 
-
-function findSharp($orig, $final) // function from Ryan Rud (http://adryrun.com)
-{
+// function from Ryan Rud (http://adryrun.com)
+function findSharp($orig, $final) {
 	$final	= $final * (750.0 / $orig);
 	$a		= 52;
 	$b		= -0.27810650887573124;
@@ -206,8 +206,7 @@ function findSharp($orig, $final) // function from Ryan Rud (http://adryrun.com)
 	return max(round($result), 0);
 } // findSharp()
 
-function doConditionalGet($etag, $lastModified)
-{
+function doConditionalGet($etag, $lastModified) {
 	header("Last-Modified: $lastModified");
 	header("ETag: \"{$etag}\"");
 		

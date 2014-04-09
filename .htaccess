@@ -1,9 +1,13 @@
 RewriteEngine On
 
-RewriteRule image/(.+)\.png convert\.php?key=$1&t=0
-RewriteRule image/(.+)\.jpg convert\.php?key=$1&t=0
-RewriteRule image/(.+)      convert\.php?key=$1&t=0
+RewriteRule gallery/(.+)\.html external_gallery\.php?key=$1
+RewriteRule gallery/(.+)\.htm  external_gallery\.php?key=$1
+RewriteRule gallery/(.+)       external_gallery\.php?key=$1
 
-RewriteRule thumb/(.+)\.png convert\.php?key=$1&t=1
-RewriteRule thumb/(.+)\.jpg convert\.php?key=$1&t=1
-RewriteRule thumb/(.+)      convert\.php?key=$1&t=1
+RewriteRule image/(.+)\.png external_image\.php?key=$1&t=0
+RewriteRule image/(.+)\.jpg external_image\.php?key=$1&t=0
+RewriteRule image/(.+)      external_image\.php?key=$1&t=0
+
+RewriteRule thumb/(.+)\.png external_image\.php?key=$1&t=1
+RewriteRule thumb/(.+)\.jpg external_image\.php?key=$1&t=1
+RewriteRule thumb/(.+)      external_image\.php?key=$1&t=1
