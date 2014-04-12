@@ -53,14 +53,18 @@ function navBar() {
 	echo '<div class="container-fluid">';
 		echo '<div class="navbar-header hidden-xs"><a class="navbar-brand" href="about.php">phpSmartGallery</a></div>';
 		if($_SESSION['UID']>0) {
-		echo '<ul class="nav navbar-nav">';
-			echo '<li><a href="upload.php">Upload</a></li>';
-			echo '<li><a href="picture.php">Pictures</a></li>';
-			echo '<li><a href="gallery.php">Gallery</a></li>';
-			if($_SESSION['UID']==1) echo '<li class="hidden-xs"><a href="admin.php">Admin</a></li>';
-			echo '<li class="hidden-xs"><a href="logout.php">Logout</a></li>';
-		echo '</ul>';
-		echo '<p class="navbar-text navbar-right hidden-xs">Signed in as <a href="password.php" class="navbar-link"><b>' . $_SESSION['NAME'] . '</b></a></p>';
+			echo '<ul class="nav navbar-nav">';
+				echo '<li><a href="upload.php">Upload</a></li>';
+				echo '<li><a href="picture.php">Pictures</a></li>';
+				echo '<li><a href="gallery.php">Gallery</a></li>';
+				if($_SESSION['UID']==1) echo '<li class="hidden-xs"><a href="admin.php">Admin</a></li>';
+				echo '<li class="hidden-xs"><a href="logout.php">Logout</a></li>';
+			echo '</ul>';
+			echo '<p class="navbar-text navbar-right hidden-xs">Signed in as <a href="password.php" class="navbar-link"><b>' . $_SESSION['NAME'] . '</b></a></p>';
+		} else {
+		echo '<ul class="nav navbar-nav hidden-xs">';
+				echo '<li><a href="login.php">Login</a></li>';
+			echo '</ul>';
 		}
 	echo '</div>';
 	echo '</nav>';

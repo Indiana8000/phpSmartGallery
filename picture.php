@@ -9,6 +9,10 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/lightbox.css" rel="stylesheet">
+    <style>
+	    .page-header{padding-top: 10px;margin-top: 0;}
+	    .navbar{margin-bottom: 0;}
+    </style>
   </head>
   <body>
 <?php navBar();
@@ -21,7 +25,7 @@ if(isset($_GET['g'])) {
 	if($stmt->execute()) {
 		if($row = $stmt->fetch()) {
 			$gallery = $row['gid'];
-			echo '<h3 class="page-header text-center">'.$row['gtitle'].'<br/><a href="gallery/'.$row['gkey'].'" target="_blank"><small>Public Link</small></a></h3>';
+			echo '<h3 class="page-header text-center navbar-default">'.$row['gtitle'].'<br/><a href="gallery/'.$row['gkey'].'" target="_blank"><small>Public Link</small></a></h3>';
 		}
 	}
 }

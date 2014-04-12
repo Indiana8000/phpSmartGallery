@@ -32,6 +32,8 @@
 		<dd><a href="https://github.com/twbs/bootstrap" target="_blank">https://github.com/twbs/bootstrap</a></dd>
 		<dt>Lightbox 2.7.1</dt>
 		<dd><a href="https://github.com/lokesh/lightbox2" target="_blank">https://github.com/lokesh/lightbox2</a></dd>
+		<dt>Holder.js 2.3.2</dt>
+		<dd><a href="https://github.com/imsky/holder" target="_blank">https://github.com/imsky/holder</a></dd>
 	</dl>
   </div>
 </div>

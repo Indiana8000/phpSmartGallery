@@ -9,6 +9,10 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../css/lightbox.css" rel="stylesheet">
+    <style>
+	    .page-header{padding-top: 10px;margin-top: 0;}
+	    .navbar{margin-bottom: 0;}
+    </style>
   </head>
   <body>
 <?php
@@ -17,7 +21,7 @@ if(isset($_GET['key'])) {
 	$stmt->bindValue(':gkey', $_GET['key'], PDO::PARAM_STR);
 	if($stmt->execute()) {
 		if($row = $stmt->fetch()) {
-			echo '<h3 class="page-header text-center">'.$row['gtitle'].'</h3>';
+			echo '<h3 class="page-header text-center navbar-default">'.$row['gtitle'].'</h3>';
 			
 			$thumsize = $GLOBALS['CONFIG']['WIDTH'] . "x" . $GLOBALS['CONFIG']['HEIGHT'];
 			$stmt = $GLOBALS['DB']->prepare("SELECT pkey, ptitle FROM pictures WHERE gid = :gid");

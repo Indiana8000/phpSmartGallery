@@ -39,6 +39,8 @@
 <script src="js/bootstrap.min.js"></script>
 <script>
 	$(document).ready(function() {
+		$('ul.nav.navbar-nav li:first').addClass("active");
+		
 		$('#btn_submit').click(function(event) {
 			event.preventDefault();
 			$('#btn_submit').addClass("disabled");
