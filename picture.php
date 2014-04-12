@@ -10,7 +10,7 @@
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/lightbox.css" rel="stylesheet">
     <style>
-	    .page-header{padding-top: 10px;margin-top: 0;}
+	    .page-header{padding-top: 10px;margin-top: 0; margin-bottom: 0;}
 	    .navbar{margin-bottom: 0;}
     </style>
   </head>
@@ -35,7 +35,7 @@ $stmt->bindValue(':uid', $_SESSION['UID'], PDO::PARAM_INT);
 $stmt->bindValue(':gid', $gallery, PDO::PARAM_INT);
 if($stmt->execute()) {
 	$thumsize = $GLOBALS['CONFIG']['WIDTH'] . "x" . $GLOBALS['CONFIG']['HEIGHT'];
-	echo '<div class="container">';
+	echo '<div class="container" style="margin-top: 20px;">';
 	while($row = $stmt->fetch()) {
 		echo '<div class="col-xs-6 col-md-3">';
 			echo '<div class="thumbnail">';
