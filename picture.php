@@ -87,8 +87,8 @@ $stmt = null;
 			<input type="text" class="form-control input-sm" id="output_link2" value="" />
 			<input type="text" class="form-control input-sm" id="output_link3" value="" />
 		</div>
-		<button class="btn btn-primary" id="pic_edit_modify">Modify</button>
-		<button class="btn btn-info" id="pic_edit_back">Back</button>
+		<button type="button" class="btn btn-info" id="pic_edit_back">Cancel</button>
+		<button type="submit" class="btn btn-primary pull-right" id="pic_edit_modify">Modify</button>
 	</form>
 	</div>
 </div>

@@ -60,9 +60,9 @@
 	    <label for="input_title">Title</label>
 	    <input type="text" class="form-control" id="input_title" placeholder="Title" />
 	  </div>
-	  <button type="submit" class="btn btn-primary" id="gal_btn_create">Create</button>
-	  <button type="submit" class="btn btn-primary hidden" id="gal_btn_modify">Modify</button>
-	  <button type="button" class="btn btn-info" id="gal_btn_back">Back</button>
+	  <button type="button" class="btn btn-info" id="gal_btn_back">Cancel</button>
+	  <button type="submit" class="btn btn-primary pull-right" id="gal_btn_create">Create</button>
+	  <button type="submit" class="btn btn-primary pull-right hidden" id="gal_btn_modify">Modify</button>
 	</form>
   </div>
 </div>

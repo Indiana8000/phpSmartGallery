@@ -74,9 +74,9 @@
 	    <input type="password" class="form-control" id="input_password" placeholder="Password" />
 	    <p class="help-block hidden" id="admin_help_modify">Leave password blank if you don't want to change it.</p>
 	  </div>
-	  <button type="submit" class="btn btn-primary" id="admin_btn_create">Create</button>
-	  <button type="submit" class="btn btn-primary hidden" id="admin_btn_modify">Modify</button>
-	  <button type="button" class="btn btn-info" id="admin_btn_back">Back</button>
+	  <button type="button" class="btn btn-info" id="admin_btn_back">Cancel</button>
+	  <button type="submit" class="btn btn-primary pull-right" id="admin_btn_create">Create</button>
+	  <button type="submit" class="btn btn-primary pull-right hidden" id="admin_btn_modify">Modify</button>
 	</form>
   </div>
 </div>
