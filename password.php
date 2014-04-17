@@ -32,7 +32,7 @@
 	    <label for="input_password_verify" class="sr-only">Verify Password</label>
 	    <input type="password" class="form-control" id="input_password_verify" placeholder="Verify Password">
 	  </div>
-	  <button class="btn btn-primary" id="btn_change">Save</button>
+	  <button class="btn btn-primary pull-right" id="btn_change">Modify</button>
 	</form>
   </div>
 </div>
