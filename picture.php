@@ -37,10 +37,10 @@ if($stmt->execute()) {
 	$thumsize = $GLOBALS['CONFIG']['WIDTH'] . "x" . $GLOBALS['CONFIG']['HEIGHT'];
 	echo '<div class="container" style="margin-top: 20px;">';
 	while($row = $stmt->fetch()) {
-		echo '<div class="col-xs-6 col-md-3">';
+		echo '<div class="col-xs-6 col-sm-3 col-md-2">';
 			echo '<div class="thumbnail">';
 				echo '<a href="image/'.$row['pkey'].'" target="_blank" data-lightbox=="imagebox" data-title="'.htmlspecialchars($row['ptitle']).'"><img data-src="holder.js/'.$thumsize.'/text:Thumb" alt="'.htmlspecialchars($row['ptitle']).'" data-url="thumb/'.$row['pkey'].'" class="pic_image" /></a>';
-				echo '<p class="text-center text-overflow" style="white-space:nowrap;overflow:hidden;margin-top:.3em;">'.htmlspecialchars($row['ptitle']).'</p>';
+				echo '<p class="text-center text-overflow" style="white-space:nowrap;overflow:hidden;margin-top:.3em;"><a href="image/'.$row['pkey'].'" target="_blank">'.htmlspecialchars($row['ptitle']).'</a></p>';
 				
 				echo '<div class="btn-group-vertical btn-block" data-pid="'.$row['pid'].'">';
 				echo '<button class="btn btn-info   btn-xs btn-block pic_edit"><span class="glyphicon glyphicon-edit"></span> Edit</button>';
