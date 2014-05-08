@@ -4,7 +4,7 @@ $(document).ready(function() {
 		$('#form_gallery').removeClass("hidden");
 	}
 	
-	$('.btn-primary').click(function() {
+	$('#btn_upload_all').click(function() {
 		$('.btn-info').click();
 	});
 

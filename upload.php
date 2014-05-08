@@ -48,7 +48,7 @@
 			<tbody>
 			</tbody>
 		</table>
-		<button class="btn btn-primary btn-block hidden"><i class="glyphicon glyphicon-upload"></i> Upload all</button>
+		<button id="btn_upload_all" class="btn btn-primary btn-block hidden"><i class="glyphicon glyphicon-upload"></i> Upload all</button>
 	</div>
 </div>
 </div>
