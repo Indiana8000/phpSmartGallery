@@ -35,12 +35,12 @@ $(document).ready(function() {
 		dataType: 'json',
 		autoUpload: false,
 		acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-		maxFileSize: 5000000, // 5 MB
+		maxFileSize: 25000000, // 25 MB
 		// Enable image resizing, except for Android and Opera,
 		// which actually support image resizing, but fail to
 		// send Blob objects via XHR requests:
-		disableImageResize: /Android(?!.*Chrome)|Opera/
-			.test(window.navigator.userAgent),
+		disableImageResize: true,
+		//	.test(window.navigator.userAgent),
 		previewMaxWidth: 120,
 		previewMaxHeight: 80,
 		previewCrop: true
